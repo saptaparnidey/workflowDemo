@@ -20,7 +20,7 @@ public class StartEvent {
 
     @GetMapping("/startevent")
     public ResponseEntity<String> startEvent()throws IOException, InterruptedException, ExecutionException {
-        String resp=triggerWorkflow.triggerWorkflow();
-        return new ResponseEntity<>("Workflow Event Started: "+resp, HttpStatus.OK);
+        triggerWorkflow.triggerWorkflow();
+        return new ResponseEntity<>("Workflow Event Started ", HttpStatus.OK);
     }
 }

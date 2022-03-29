@@ -4,6 +4,7 @@ import com.google.cloud.workflows.executions.v1.CreateExecutionRequest;
 import com.google.cloud.workflows.executions.v1.Execution;
 import com.google.cloud.workflows.executions.v1.ExecutionsClient;
 import com.google.cloud.workflows.executions.v1.WorkflowName;
+import com.google.protobuf.Descriptors;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
@@ -16,23 +17,27 @@ public class TriggerWorkflow {
 
     private static final String PROJECT = "workflow-demo-345011";
     private static final String LOCATION = "us-central1";
-    private static final String WORKFLOW = "workflow-log";
+    private static final String WORKFLOW = "workflow-args";
     private static volatile boolean finished;
 
 
     private Log log = LogFactory.getLog(TriggerWorkflow.class);
 
-    public String triggerWorkflow()throws IOException, InterruptedException, ExecutionException {
+    public void triggerWorkflow()throws IOException, InterruptedException, ExecutionException {
 
         String result="";
+
 
         try (ExecutionsClient executionsClient = ExecutionsClient.create()) {
 
             WorkflowName parent = WorkflowName.of(PROJECT, LOCATION, WORKFLOW);
+            Descriptors.FieldDescriptor fieldDescriptor = null;
 
             CreateExecutionRequest request =
                     CreateExecutionRequest.newBuilder()
                             .setParent(parent.toString())
+                            .setField(fieldDescriptor.getContainingType().findFieldByName("firstName"), "Dragon")
+                            .setField(fieldDescriptor.getContainingType().findFieldByName("lastName"), "Ally")
                             .setExecution(Execution.newBuilder().build())
                             .build();
 
@@ -41,6 +46,7 @@ public class TriggerWorkflow {
             result=response.getResult();
 
             log.info("Created execution: "+ executionName);
+            log.info("Result.. : "+result);
 
             long backoffTime = 0;
             long backoffDelay = 1_000; // Start wait with delay of 1,000 ms
@@ -64,7 +70,6 @@ public class TriggerWorkflow {
             }
 
         }
-        return result;
 
     }
 
