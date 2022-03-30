@@ -7,7 +7,6 @@ import com.google.cloud.workflows.executions.v1.WorkflowName;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
-import org.json.JSONObject;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
@@ -16,7 +15,7 @@ public class TriggerWorkflow {
 
     private static final String PROJECT = "workflow-demo-345011";
     private static final String LOCATION = "us-central1";
-    private static final String WORKFLOW = "workflow-args";
+    private static final String WORKFLOW = "workflow-fl";
     private static volatile boolean finished;
 
 
@@ -30,8 +29,6 @@ public class TriggerWorkflow {
         try (ExecutionsClient executionsClient = ExecutionsClient.create()) {
 
             WorkflowName parent = WorkflowName.of(PROJECT, LOCATION, WORKFLOW);
-
-//            JSONObject jsonObject = new JSONObject(payload);
             CreateExecutionRequest request =
                     CreateExecutionRequest.newBuilder()
                             .setParent(parent.toString())
