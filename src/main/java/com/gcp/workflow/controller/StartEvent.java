@@ -18,9 +18,9 @@ public class StartEvent {
     @Autowired
     private TriggerWorkflow triggerWorkflow;
 
-    @GetMapping("/startevent")
-    public ResponseEntity<String> startEvent()throws IOException, InterruptedException, ExecutionException {
-        triggerWorkflow.triggerWorkflow();
+    @PostMapping("/startevent")
+    public ResponseEntity<String> startEvent(@RequestBody String payload)throws IOException, InterruptedException, ExecutionException {
+        triggerWorkflow.triggerWorkflow(payload);
         return new ResponseEntity<>("Workflow Event Started ", HttpStatus.OK);
     }
 }
