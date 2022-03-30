@@ -4,7 +4,6 @@ import com.google.cloud.workflows.executions.v1.CreateExecutionRequest;
 import com.google.cloud.workflows.executions.v1.Execution;
 import com.google.cloud.workflows.executions.v1.ExecutionsClient;
 import com.google.cloud.workflows.executions.v1.WorkflowName;
-import com.google.protobuf.Descriptors.FieldDescriptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
@@ -31,14 +30,12 @@ public class TriggerWorkflow {
         try (ExecutionsClient executionsClient = ExecutionsClient.create()) {
 
             WorkflowName parent = WorkflowName.of(PROJECT, LOCATION, WORKFLOW);
-            FieldDescriptor fieldDescriptor = null;
             String payload = "{\"firstName\":\"Dragon\",\"lastName\":\"Ally\"}\"}";
 
             CreateExecutionRequest request =
                     CreateExecutionRequest.newBuilder()
                             .setParent(parent.toString())
                             .setExecution(Execution.newBuilder().setArgument(payload).build())
-                            .setExecution(Execution.newBuilder().build())
                             .build();
 
             Execution response = executionsClient.createExecution(request);
