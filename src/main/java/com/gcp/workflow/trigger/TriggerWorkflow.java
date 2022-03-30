@@ -1,5 +1,6 @@
 package com.gcp.workflow.trigger;
 
+import com.gcp.workflow.dto.ReqPayload;
 import com.google.cloud.workflows.executions.v1.CreateExecutionRequest;
 import com.google.cloud.workflows.executions.v1.Execution;
 import com.google.cloud.workflows.executions.v1.ExecutionsClient;
@@ -7,7 +8,7 @@ import com.google.cloud.workflows.executions.v1.WorkflowName;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
-
+import org.json.JSONObject;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
@@ -30,12 +31,15 @@ public class TriggerWorkflow {
         try (ExecutionsClient executionsClient = ExecutionsClient.create()) {
 
             WorkflowName parent = WorkflowName.of(PROJECT, LOCATION, WORKFLOW);
-            String payload = "{\"firstName\":\"Dragon\",\"lastName\":\"Ally\"}\"}";
 
+            String payload = "{\"firstName\":\"Dragon\",\"lastName\":\"Ally\"}\"}";
+//            ReqPayload reqPayload = new ReqPayload();
+            JSONObject jsonObject = new JSONObject(payload);
+            log.info("JsonString: "+jsonObject.toString());
             CreateExecutionRequest request =
                     CreateExecutionRequest.newBuilder()
                             .setParent(parent.toString())
-                            .setExecution(Execution.newBuilder().setArgument(payload).build())
+                            .setExecution(Execution.newBuilder().setArgument(jsonObject.toString()).build())
                             .build();
 
             Execution response = executionsClient.createExecution(request);
