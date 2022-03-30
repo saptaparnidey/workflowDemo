@@ -32,12 +32,12 @@ public class TriggerWorkflow {
 
             WorkflowName parent = WorkflowName.of(PROJECT, LOCATION, WORKFLOW);
             FieldDescriptor fieldDescriptor = null;
+            String payload = "{\"firstName\":\"Dragon\",\"lastName\":\"Ally\"}\"}";
 
             CreateExecutionRequest request =
                     CreateExecutionRequest.newBuilder()
                             .setParent(parent.toString())
-                            .setField(fieldDescriptor.getContainingType().findFieldByName("firstName"), "Dragon")
-                            .setField(fieldDescriptor.getContainingType().findFieldByName("lastName"), "Ally")
+                            .setExecution(Execution.newBuilder().setArgument(payload).build())
                             .setExecution(Execution.newBuilder().build())
                             .build();
 
