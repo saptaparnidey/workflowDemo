@@ -1,6 +1,6 @@
 package com.gcp.workflow.controller;
 
-import com.gcp.workflow.trigger.TriggerWorkflow;
+import com.gcp.workflow.trigger.TriggerCallbackWorkflow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +12,14 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-public class StartEvent {
+public class CallToCallback {
 
     @Autowired
-    private TriggerWorkflow triggerWorkflow;
+    TriggerCallbackWorkflow triggerCallbackWorkflow;
 
-    @PostMapping("/startevent")
-    public ResponseEntity<String> startEvent(@RequestBody String payload)throws IOException, InterruptedException, ExecutionException {
-        triggerWorkflow.triggerWorkflow(payload);
-        return new ResponseEntity<>("Workflow Event Started ", HttpStatus.OK);
+    @PostMapping("/callbackurl")
+    public ResponseEntity<String> callbackRequest(@RequestBody String request) throws InterruptedException, ExecutionException, IOException {
+        triggerCallbackWorkflow.triggerCallbackWorkflow(request);
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 }
