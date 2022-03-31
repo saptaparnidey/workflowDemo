@@ -19,7 +19,7 @@ public class CallToCallback {
 
     @PostMapping("/callbackurl")
     public ResponseEntity<String> callbackRequest(@RequestBody String request) throws InterruptedException, ExecutionException, IOException {
-        triggerCallbackWorkflow.triggerCallbackWorkflow(request);
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+        String resp =triggerCallbackWorkflow.triggerCallbackWorkflow(request);
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }

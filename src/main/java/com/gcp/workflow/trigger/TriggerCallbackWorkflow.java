@@ -22,7 +22,7 @@ public class TriggerCallbackWorkflow {
 
     private Log log = LogFactory.getLog(TriggerCallbackWorkflow.class);
 
-    public void triggerCallbackWorkflow(String payload)throws IOException, InterruptedException, ExecutionException {
+    public String triggerCallbackWorkflow(String payload)throws IOException, InterruptedException, ExecutionException {
 
         String result="";
 
@@ -38,7 +38,7 @@ public class TriggerCallbackWorkflow {
 
             Execution response = executionsClient.createExecution(request);
             String executionName = response.getName();
-            result=response.getResult();
+
 
             log.info("Callback Workflow Created execution: "+ executionName);
 
@@ -60,11 +60,12 @@ public class TriggerCallbackWorkflow {
                 } else {
                     log.info("Callback Workflow Execution finished with state: " + execution.getState().name());
                     log.info("Callback Workflow Execution results: " + execution.getResult());
+                    result = execution.getResult();
                 }
             }
 
         }
-
+    return result;
     }
 
 }
