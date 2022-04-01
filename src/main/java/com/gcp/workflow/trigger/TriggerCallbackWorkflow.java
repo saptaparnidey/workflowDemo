@@ -14,9 +14,9 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class TriggerCallbackWorkflow {
 
-    private static final String PROJECT = "workflow-fl-demo";
+    private static final String PROJECT = "returnfulfilment-demo";
     private static final String LOCATION = "us-central1";
-    private static final String WORKFLOW = "workflow-flcallback";
+    private static final String WORKFLOW = "workflow-flcb";
     private static volatile boolean finished;
 
 
